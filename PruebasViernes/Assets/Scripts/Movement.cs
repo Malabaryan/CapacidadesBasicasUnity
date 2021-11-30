@@ -24,7 +24,10 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        groundedPlayer = controller.isGrounded;
+        if(TocaFrente()){
+            Debug.Log("Me toco desde el frente");
+        }
+        groundedPlayer = IsGrounded();//controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
@@ -59,5 +62,39 @@ public class Movement : MonoBehaviour
          void MoveCamera()
     {
         mainCamera.transform.position = new Vector3(transform.position.x , transform.position.y + alturaCamara, transform.position.z - distanciaAtras);
+    }
+
+    public bool TocaFrente(){
+        Debug.Log("IsGrounded");
+        LayerMask mask = LayerMask.GetMask("Default");
+        
+        RaycastHit hit;
+        if(Physics.SphereCast( transform.position, 0.3f,  transform.forward, out hit, 0.7f, mask )){
+            if(hit.transform.tag == "Finish"){
+                   return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        return false;
+
+        
+    }
+
+    public bool IsGrounded(){
+        Debug.Log("IsGrounded");
+        LayerMask mask = LayerMask.GetMask("Default");
+        
+        RaycastHit hit;
+        return Physics.SphereCast(
+            transform.position,
+            0.1f,
+            Vector3.down,
+            out hit,
+            0.5f,
+            mask
+        );
     }
 }
