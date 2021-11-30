@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemigo : MonoBehaviour
 {
+    public int vida = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +21,19 @@ public class Enemigo : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bala") // Pregunto si el objeto tiene el tag Enemigo
         {
+            RecibirDano();
             Destroy(collision.gameObject);
-            Destroy(gameObject);    // Funcion para destruir ESTE objeto
         }
         
         
+        
+    }
+
+    public void RecibirDano(){
+        vida -= 1;
+        if(vida == 0){
+            
+            Destroy(gameObject);    // Funcion para destruir ESTE objeto
+        }
     }
 }
